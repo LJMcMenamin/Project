@@ -7,33 +7,33 @@ function [ northobasis ] = IMGS( orthobasis, RB, wt )
 
 %hardcoded condition
 orthocondition = 0.5; 
-nrm_prev = sqrt(abs(dot_product(wt, orthobasis, orthobasis)));
-flag = True;
+nrm_prev = sqrt(abs(DotProduct(wt, orthobasis, orthobasis)));
+flag = true;
 
 %copy and normalise orthogonal basis vector
-e = copy(orthobasis);
+e = (orthobasis);
 e = e/nrm_prev;
 
-ru = zeros(size(RB,0));
+ru = zeros(size(RB,1));
 
 while flag 
-    northobasis = copy(e) ;
+    northobasis = (e) ;
     [northobasis, rlast] = ModGramSchmidt(northobasis, RB, wt);
     ru = ru + rlast;
-    nrm_current = real(ru(0));
+    nrm_current = real(ru(1));
 
-    northobasis = northobasis*(ru(0));
+    northobasis = northobasis*(ru(1));
 
     if  (nrm_current/nrm_prev) < orthocondition;
          nrm_prev = nrm_current;
-         e = copy(northobasis);
+         e =(northobasis);
     else
-         flag = False;
+         flag = false;
     end
 
-nrm_current = sqrt(abs(dot_product(wt, northobasis, northobasis)));
+nrm_current = sqrt(abs(DotProduct(wt, northobasis, northobasis)));
 northobasis = northobasis/nrm_current;
-ru(0) = nrm_current;
+ru(1) = nrm_current;
 end
 
 %return northobasis?
