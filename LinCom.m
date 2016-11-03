@@ -1,16 +1,24 @@
-function [ thing ] = LinCom( emitdt, RB_matrix )
-%No clue just yet
-%   none
+function [ newemitdt ] = LinCom( emitdt, RB_matrix )
 
 
-%so what i THINK we're doing is finding a way of representing emitdt as a
-%linear combination of RB_matrix? And recording the A and B coefficients
-%that do the combination?
+%% Find coefficients
 
-X = emitdt;
-C = RB_matrix;
-thing= X\C
+%Need to find m so that matrix dimensions agree
+[m,n] = size(RB_matrix);
 
+%Choose m ~evenly spaced entries from emitdt
+spots = round(linspace(1,length(emitdt),m)); 
+A = emitdt(spots);
+
+B = A'
+C = RB_matrix(:, 1:m);
+coefficients= B\C;
+
+
+
+%% We then want to build emitdt using the coefficients found
+
+newemitdt = interp1(B,  ,RB_matrix, 
 
 end
 
