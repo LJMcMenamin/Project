@@ -1,4 +1,4 @@
-function [ northobasis, ru ] = ModGramSchmidt(orthobasis, RB, wt )
+function [ northobasis, ru ] = ModGramSchmidt(orthobasis, RB)
 %     The Modified Gram-Schmidt algorithm
 %This function inputs orthobasis (a vector containing a single
 %orthonormal basis function), RB (a ndarray containing the current
@@ -21,14 +21,14 @@ northobasis = orthobasis;
 
 for i = 1:(size(RB, 1));
        basis(i,:) = RB(i,:);
-       L2_proj = DotProduct(wt, basis(i,:), northobasis);
+       L2_proj = dot(basis(i,:), northobasis);
        ru(i) = L2_proj;
        basis(i,:) = (basis(i,:))*(L2_proj);
        northobasis = basis(i,:) - northobasis;
 end
 
 %then get normalisation for orthobasis
-norm = sqrt(abs(DotProduct(wt, northobasis, northobasis)));
+norm = sqrt(abs(dot(northobasis, northobasis)));
 ru(size(RB,1)) = norm;
 %normalise orthogonal basis vector
 northobasis = northobasis/norm;

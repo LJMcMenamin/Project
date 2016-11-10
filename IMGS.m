@@ -1,4 +1,4 @@
-function [ northobasis ] = IMGS( orthobasis, RB, wt )
+function [ northobasis ] = IMGS( orthobasis, RB)
 % Iterative modified Gram-Schmidt algorithm.
 % It inputs orthobasis (a vector containing a single orthonormal basis
 % function), RB (a ndarray containing the current reduced basis), and wt (a
@@ -7,7 +7,7 @@ function [ northobasis ] = IMGS( orthobasis, RB, wt )
 
 %hardcoded condition
 orthocondition = 0.5; 
-nrm_prev = sqrt(abs(DotProduct(wt, orthobasis, orthobasis)));
+nrm_prev = sqrt(abs(dot(orthobasis, orthobasis)));
 flag = true;
 
 %copy and normalise orthogonal basis vector
@@ -18,7 +18,7 @@ ru = zeros(size(RB,1));
 
 while flag 
     northobasis = (e) ;
-    [northobasis, rlast] = ModGramSchmidt(northobasis, RB, wt);
+    [northobasis, rlast] = ModGramSchmidt(northobasis, RB);
     ru = ru + rlast;
     nrm_current = real(ru(1));
 
@@ -31,7 +31,7 @@ while flag
          flag = false;
     end
 
-nrm_current = sqrt(abs(DotProduct(wt, northobasis, northobasis)));
+nrm_current = sqrt(abs(dot(northobasis, northobasis)));
 northobasis = northobasis/nrm_current;
 ru(1) = nrm_current;
 end

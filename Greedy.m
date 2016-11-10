@@ -1,4 +1,4 @@
-function [ RB_space ] = Greedy( TS, wt, tol)
+function [ RB_space ] = Greedy( TS, tol)
 %Perform greedy algorithm (using IMGS) to form a reduced basis from a given training set.
 %Inputs TS (a ndarray containing a set of normalised training vectors), wt
 %(a weight, or vector of weights, for normalisation), and tol (a stopping
@@ -28,7 +28,7 @@ RB_space = zeros(1,cols);
 
 
 for i = 1:rows;
-    A_row_norms2(i) = sqrt(abs(DotProduct(wt, TS(i,:), TS(i,:)))) ;
+    A_row_norms2(i) = sqrt(abs(dot(TS(i,:), TS(i,:)))) ;
 end
 
 %initialise with the first training set
@@ -46,7 +46,7 @@ while continuework
 
     %Compute overlaps of pieces of TS with rb_new
         for i = 1:rows
-            projection_coeff = DotProduct(wt, last_rb, TS(i,:));
+            projection_coeff = dot(last_rb, TS(i,:));
             projection_norms2(i) = projection_norms2(i) + (real(projection_coeff^2) + imag(projection_coeff^2)) ;
             errors(i) = A_row_norms2(i) - projection_norms2(i);
      
@@ -62,7 +62,7 @@ while continuework
     fprintf(1, '%d: Max. Err. %e, for training waveform %d\n', dim_RB, worst_err, worst_app);
 
     orthobasis = (TS(worst_app,:));
-    orthobasis = IMGS(orthobasis, RB_space, wt);
+    orthobasis = IMGS(orthobasis, RB_space);
     
     RB_space = vertcat(RB_space, orthobasis);
 
