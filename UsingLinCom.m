@@ -5,10 +5,10 @@
 
 %% Set up
 %emitdt size
-size = 1000;
+size = 100;
 
 %waveform length
-wl = 1000;
+wl = 100;
 
 %vector to fill with the times taken for each iteration of the loop
 interpend = zeros(size,1);
