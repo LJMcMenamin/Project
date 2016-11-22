@@ -5,10 +5,10 @@
 
 %% Set up
 %emitdt size
-size = 10000;
+size = 500;
 
 %waveform length
-wl = 10000;
+wl = 500;
 
 %vector to fill with the times taken for each iteration of the loop
 interpend = zeros(size,1);
@@ -16,9 +16,9 @@ interpend = zeros(size,1);
 %vector to fill with the created version of emitdt, 'emitdtest'
 emitdtest = zeros(size,wl);
 
+RB_matrix = RB_matrix(round(linspace(1,length(RB_matrix), size))); 
 
-
-%% Create version of emitdt, 'emitdtest'
+%% Create version of emitdt form the coefficients 'emitdtest'
 
 for i = 1:size
 
@@ -36,7 +36,7 @@ end
 
 
 
-%% Brief Analysis
+%% Make graphs
 
 %find the maximum difference between the original emitdt and the newly
 %created emitdt
