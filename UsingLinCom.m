@@ -5,10 +5,10 @@
 
 %% Set up
 %emitdt size
-size = 500;
+size = 1000;
 
 %waveform length
-wl = 500;
+wl = 1000;
 
 %vector to fill with the times taken for each iteration of the loop
 interpend = zeros(size,1);
@@ -16,7 +16,7 @@ interpend = zeros(size,1);
 %vector to fill with the created version of emitdt, 'emitdtest'
 emitdtest = zeros(size,wl);
 
-RB_matrix = RB_matrix(round(linspace(1,length(RB_matrix), size))); 
+Usable_RB_matrix = RB_matrix(:,(round(linspace(1,length(RB_matrix), size)))); 
 
 %% Create version of emitdt form the coefficients 'emitdtest'
 
@@ -28,7 +28,7 @@ for i = 1:size
    
     %use 'LinCom' to re-create emitdt as emitdtest as a linear combination 
     %of the vectors in the reduced basis
-    emitdtest(:,i) = LinCom(emitdt(:,i), RB_matrix);
+    emitdtest(:,i) = LinCom(emitdt(:,i), Usable_RB_matrix);
     
     %
     interpend(i) = toc(interpstart);
@@ -54,3 +54,5 @@ ylabel('occurrences')
 figure
 hist(interpend)
 title('interpolation method times')
+xlabel('time taken to recreate emitdt vector')
+ylabel('occurrences')
