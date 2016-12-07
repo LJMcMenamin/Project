@@ -5,7 +5,7 @@
 
 %% Set up
 %emitdt size
-size = 100;
+size = 2000;
 
 %waveform length
 wl = 100;
@@ -16,7 +16,7 @@ interpend = zeros(size,1);
 %vector to fill with the created version of emitdt, 'emitdtest'
 emitdtest = zeros(size,wl);
 
-Usable_RB_matrix = RB_matrix(:,(round(linspace(1,length(RB_matrix), size)))); 
+Usable_RB_matrix = RB_matrix(:,(round(linspace(4,length(RB_matrix)-4, wl)))); 
 
 %% Create version of emitdt form the coefficients 'emitdtest'
 
@@ -28,7 +28,7 @@ for i = 1:size
    
     %use 'LinCom' to re-create emitdt as emitdtest as a linear combination 
     %of the vectors in the reduced basis
-    emitdtest(:,i) = LinCom(emitdt(:,i), Usable_RB_matrix);
+    emitdtest(i,:) = LinCom(emitdt(i,:), Usable_RB_matrix);
     
     %
     interpend(i) = toc(interpstart);
@@ -40,19 +40,19 @@ end
 
 %find the maximum difference between the original emitdt and the newly
 %created emitdt
-MaxDif = max(abs(emitdt-emitdtest));
+MaxDif = max(emitdt-emitdtest);
 
 %create a histogram of the maximum differences between the old and new
 %emitdt
 figure
 hist(MaxDif)
-title('differences')
+title('differences between original and recreated time delay vectors')
 xlabel('difference')
 ylabel('occurrences')
 
-%create a histogram of the times taken to create each emitdtest vector
-figure
-hist(interpend)
-title('interpolation method times')
-xlabel('time taken to recreate emitdt vector')
-ylabel('occurrences')
+% %create a histogram of the times taken to create each emitdtest vector
+% figure
+% hist(interpend)
+% title('interpolation method times')
+% xlabel('time taken to recreate emitdt vector')
+% ylabel('occurrences')
